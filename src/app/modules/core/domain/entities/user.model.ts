@@ -6,7 +6,7 @@ export interface User {
 	email: string;
 	username: string;
 	avatar: string;
-	balance: number;
-	deck: Card[];
-	recharges: Recharge[];
+	balance?: number;
+	deck?: Card[];
+	recharges?: Recharge[];
 }
