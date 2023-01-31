@@ -7,43 +7,28 @@ import {
 	signInWithPopup,
 } from '@angular/fire/auth';
 
-import {
-	CollectionReference,
-	doc,
-	DocumentData,
-	Firestore,
-	getDoc,
-	setDoc,
-} from '@angular/fire/firestore';
-
-import { collection } from '@firebase/firestore';
-import { User } from '../../core/domain/entities/user.model';
+import { UserService } from '../../core/services/user.service';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class AuthService {
-	private _userCollectionReference: CollectionReference = collection(
-		this.firestore,
-		'users',
-	);
-
 	constructor(
+		private readonly _userService: UserService,
 		private readonly auth: Auth,
-		private readonly firestore: Firestore,
 	) {}
 
 	login(): Promise<void> {
 		return signInWithPopup(this.auth, new GoogleAuthProvider()).then(
 			async ({ user }) => {
-				const savedUser = await this.findUser(user.uid);
+				const savedUser = await this._userService.findUser(user.uid);
 
 				if (!savedUser) {
-					this.saveUser({
+					this._userService.saveUser({
 						uid: user.uid,
-						email: user.email!,
-						avatar: user.photoURL!,
-						username: user.displayName!,
+						email: user.email || '',
+						avatar: user.photoURL || '',
+						username: user.displayName || '',
 						balance: 0,
 						deck: [],
 						recharges: [],
@@ -55,18 +40,6 @@ export class AuthService {
 
 	getCurrentUser(): GoogleUser | null {
 		return this.auth.currentUser;
-	}
-
-	findUser(userId: string): Promise<User | undefined> {
-		return getDoc(doc(this.firestore, `users/${userId}`)).then((d) =>
-			d.data() ? (d.data() as User) : undefined,
-		);
-	}
-
-	private saveUser(user: User): void {
-		const userRef = doc(this._userCollectionReference, user.uid);
-
-		setDoc(userRef, user).then();
 	}
 
 	logOut(): Promise<void> {
