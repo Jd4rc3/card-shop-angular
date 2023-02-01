@@ -1,5 +1,6 @@
 <app-card>
-	<app-button (buttonClick)="emit()"
-		>Sign in with google <app-icon></app-icon>
+	<app-button body (buttonClick)="emit()"
+		>Sign in with google
+		<app-icon [classList]="['fa-brand', 'fa-google']"></app-icon>
 	</app-button>
 </app-card>

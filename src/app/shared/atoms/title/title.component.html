@@ -1,0 +1,7 @@
+<h1 [ngClass]="classList" *ngIf="level == 1">{{ title }}</h1>
+<h2 [ngClass]="classList" *ngIf="level == 2">{{ title }}</h2>
+<h3 [ngClass]="classList" *ngIf="level == 3">{{ title }}</h3>
+<h4 [ngClass]="classList" *ngIf="level == 4">{{ title }}</h4>
+<h5 [ngClass]="classList" *ngIf="level == 5">{{ title }}</h5>
+<h6 [ngClass]="classList" *ngIf="level == 6">{{ title }}</h6>
+<h1 [ngClass]="classList" *ngIf="level < 1 || level > 6">{{ title }}</h1>

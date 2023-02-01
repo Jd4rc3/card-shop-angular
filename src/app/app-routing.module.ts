@@ -1,13 +1,20 @@
 import { NgModule } from '@angular/core';
+import { canActivate, redirectLoggedInTo } from '@angular/fire/auth-guard';
 import { RouterModule, Routes } from '@angular/router';
+import { LoginComponent } from './modules/pages/login/login.component';
 
 const routes: Routes = [
 	{
-		path: 'shop',
+		path: 'game',
 		loadChildren: () =>
 			import('./modules/pages/pages.module').then((m) => m.PagesModule),
 	},
-	{ path: '**', redirectTo: 'shop' },
+	{
+		path: 'signin',
+		component: LoginComponent,
+		...canActivate(() => redirectLoggedInTo(['game/home'])),
+	},
+	{ path: '**', redirectTo: '' },
 ];
 
 @NgModule({

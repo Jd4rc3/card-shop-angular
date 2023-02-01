@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
 
 	signIn() {
 		this._authService.login().then(() => {
-			this._router.navigate(['/shop/home']);
+			this._router.navigate(['/game/home']);
 		});
 	}
 }

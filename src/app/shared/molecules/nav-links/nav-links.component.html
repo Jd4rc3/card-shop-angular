@@ -1,0 +1,10 @@
+<app-items-list
+	class="w-100"
+	[classList]="['d-flex', 'justify-content-evenly']"
+>
+	<app-list-item *ngFor="let item of links"
+		><a [routerLink]="[item.value]" class="nav-link">{{
+			item.label
+		}}</a></app-list-item
+	>
+</app-items-list>

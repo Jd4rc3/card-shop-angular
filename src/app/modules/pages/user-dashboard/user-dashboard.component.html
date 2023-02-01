@@ -1,0 +1,14 @@
+<div class="row mt-5">
+	<app-deck
+		*ngFor="let c of user.deck"
+		class="col-12 col-md-6 col-lg-4 col-xl-3"
+		[card]="c"
+	></app-deck>
+</div>
+
+<app-user-data class="mb-5 mt-5 d-flex" [userData]="user"></app-user-data>
+
+<app-balance
+	[recharges]="user.recharges!"
+	[balance]="user.balance!"
+></app-balance>
