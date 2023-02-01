@@ -1,0 +1,15 @@
+<img
+	class="pokemon-logo"
+	src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3%A9mon_logo.svg/1200px-International_Pok%C3%A9mon_logo.svg.png"
+	alt=""
+/>
+<app-nav-links
+	class="d-flex align-items-center justify-content-evenly w-50"
+	[links]="links"
+></app-nav-links>
+<app-user-actions
+	(signOut)="signOut()"
+	class="d-flex align-items-center justify-content-end w-50"
+	[iconsList]="icons"
+	[imageUrl]="imageUrl"
+></app-user-actions>

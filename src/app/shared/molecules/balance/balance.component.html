@@ -1,0 +1,6 @@
+<app-title [text]="'💸' + balance.toString()"></app-title>
+<app-items-list *ngFor="let i of items">
+	<app-list-item
+		><p>{{ i.label }}</p>
+	</app-list-item>
+</app-items-list>

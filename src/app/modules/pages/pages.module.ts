@@ -7,9 +7,16 @@ import { LoginComponent } from './login/login.component';
 import { MoleculesModule } from '../../shared/molecules/molecules.module';
 import { PagesRoutingModule } from './pages-routing.module';
 import { OrganismsModule } from '../../shared/organisms/organisms.module';
+import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
+import { ShopComponent } from './shop/shop.component';
 
 @NgModule({
-	declarations: [HomeComponent, LoginComponent],
+	declarations: [
+		HomeComponent,
+		LoginComponent,
+		UserDashboardComponent,
+		ShopComponent,
+	],
 	imports: [
 		CommonModule,
 		AtomsModule,
@@ -17,5 +24,6 @@ import { OrganismsModule } from '../../shared/organisms/organisms.module';
 		PagesRoutingModule,
 		OrganismsModule,
 	],
+	exports: [LoginComponent],
 })
 export class PagesModule {}

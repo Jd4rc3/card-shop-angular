@@ -1,26 +1,24 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
-import {
-	canActivate,
-	redirectLoggedInTo,
-	redirectUnauthorizedTo,
-} from '@angular/fire/auth-guard';
+import { canActivate, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
+import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
+import { ShopComponent } from './shop/shop.component';
 
 const routes: Routes = [
 	{
 		path: '',
+		component: HomeComponent,
 		children: [
 			{
-				path: 'signin',
-				component: LoginComponent,
-				...canActivate(() => redirectLoggedInTo(['/shop/home'])),
+				path: 'home',
+				component: UserDashboardComponent,
+				...canActivate(() => redirectUnauthorizedTo(['/signin'])),
 			},
 			{
-				path: 'home',
-				component: HomeComponent,
-				...canActivate(() => redirectUnauthorizedTo(['/shop/signin'])),
+				path: 'shop',
+				component: ShopComponent,
+				...canActivate(() => redirectUnauthorizedTo(['/signin'])),
 			},
 			{ path: '**', redirectTo: 'home' },
 		],
