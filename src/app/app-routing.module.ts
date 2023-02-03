@@ -14,7 +14,7 @@ const routes: Routes = [
 		component: LoginComponent,
 		...canActivate(() => redirectLoggedInTo(['game/home'])),
 	},
-	{ path: '**', redirectTo: '' },
+	{ path: '**', redirectTo: 'game' },
 ];
 
 @NgModule({
