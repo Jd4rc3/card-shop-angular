@@ -1,1 +1,17 @@
-<p>shop works!</p>
+<div class="row mt-3">
+	<app-card
+		class="mb-2 col-12 col-md-4 col-xl-3"
+		*ngFor="let card of availableCards"
+	>
+		<div header>
+			<img [src]="card.imageUrl" [alt]="card.name" />
+			<p>{{ card.name | titlecase }}</p>
+		</div>
+
+		<p class="description" body>{{ card.description }}</p>
+
+		<app-button (buttonClick)="purchaseCard(card)" footer>
+			<app-icon [list]="['fa-solid', 'fa-cart-shopping']"></app-icon>
+		</app-button>
+	</app-card>
+</div>
