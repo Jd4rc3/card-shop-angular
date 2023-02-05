@@ -1,4 +1,5 @@
 <div class="row mt-3">
+
 	<app-card
 		class="mb-2 col-12 col-md-4 col-xl-3"
 		*ngFor="let card of availableCards"
@@ -10,8 +11,21 @@
 
 		<p class="description" body>{{ card.description }}</p>
 
-		<app-button (buttonClick)="purchaseCard(card)" footer>
+		<app-button (buttonClick)="rechargeSwal.fire()" footer>
 			<app-icon [list]="['fa-solid', 'fa-cart-shopping']"></app-icon>
 		</app-button>
 	</app-card>
 </div>
+
+<swal
+  #rechargeSwal
+  title="Recharge"
+  text="Type the amount which you want recharge"
+  input="number"
+  [showCancelButton]="true"
+  [focusCancel]="true"
+  (confirm)="recharge($event)">
+</swal>
+
+<swal #right></swal>
+<swal #wrong></swal>
