@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
-import { parseInt } from "lodash";
+import { SweetAlertResult } from "sweetalert2";
 import { AuthService } from "../../auth/services/auth.service";
 import { Card } from "../../core/domain/entities/card.model";
 import { CardService } from "../../core/services/card.service";
@@ -18,7 +18,7 @@ export class ShopComponent implements OnInit {
 		private readonly _cardService: CardService,
 		private readonly _authService: AuthService,
 		private readonly _userService: UserService,
-	) {}
+	) { }
 
 	ngOnInit(): void {
 		this._cardService.findAvailableCards().subscribe((cards) => {
@@ -32,32 +32,29 @@ export class ShopComponent implements OnInit {
 	@ViewChild('wrong')
 	wrongAlert!: SwalComponent;
 
-	@ViewChild('rechargeSwal')
-	alert!: SwalComponent;
+	@ViewChild('confirm')
+	confirmAlert!: SwalComponent;
 
-	async recharge(amount: string) {
-		const uid = this._authService.getCurrentUser()?.uid;
 
-		if (!uid) return;
+	async purchaseCard(card: Card) {
+		const response: SweetAlertResult = await this.confirmAlert.fire();
 
-		const response = await this._userService.recharge(uid, parseInt(amount));
+		if (response.isConfirmed) {
+			const result = await this._cardService
+				.purchaseCard(card.uid, this._authService.getCurrentUser()!.uid)
 
-		if (!response.success) {
-			// this.wrongAlert.fire();
-			// console.log(this.wrongAlert.title);
-			console.log(this.alert);
+			if (result.success) {
+				this.rightAlert.title = "Success";
+				this.rightAlert.text = result.message;
 
-			return;
+				this.rightAlert.fire();
+
+				return;
+			}
+
+			this.wrongAlert.title = "Something went wrong";
+			this.wrongAlert.text = result.message;
+			this.wrongAlert.fire();
 		}
-
-		// this.rightAlert.fire();
-	}
-
-	purchaseCard(card: Card) {
-		this._cardService
-			.purchaseCard(card.uid, this._authService.getCurrentUser()!.uid)
-			.then((response) => {
-				if (response) console.log("comprado");
-			});
 	}
 }

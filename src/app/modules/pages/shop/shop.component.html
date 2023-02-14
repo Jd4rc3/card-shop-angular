@@ -1,9 +1,6 @@
 <div class="row mt-3">
 
-	<app-card
-		class="mb-2 col-12 col-md-4 col-xl-3"
-		*ngFor="let card of availableCards"
-	>
+	<app-card class="mb-2 col-12 col-md-4 col-xl-3" *ngFor="let card of availableCards">
 		<div header>
 			<img [src]="card.imageUrl" [alt]="card.name" />
 			<p>{{ card.name | titlecase }}</p>
@@ -11,21 +8,17 @@
 
 		<p class="description" body>{{ card.description }}</p>
 
-		<app-button (buttonClick)="rechargeSwal.fire()" footer>
+		<app-button [classes]="['btn-outline-success']" (buttonClick)="purchaseCard(card)" footer>
+			{{card.price}}
 			<app-icon [list]="['fa-solid', 'fa-cart-shopping']"></app-icon>
 		</app-button>
 	</app-card>
 </div>
 
-<swal
-  #rechargeSwal
-  title="Recharge"
-  text="Type the amount which you want recharge"
-  input="number"
-  [showCancelButton]="true"
-  [focusCancel]="true"
-  (confirm)="recharge($event)">
+<swal #confirm (confirm)="purchaseCard($event)" title="" text="Are you sure?" [showCancelButton]="true"
+	cancelButtonColor="#ff0000" icon="question">
 </swal>
 
-<swal #right></swal>
-<swal #wrong></swal>
+<swal #wrong title="" text="" icon="error"></swal>
+
+<swal #right title="" text="" icon="success"></swal>
