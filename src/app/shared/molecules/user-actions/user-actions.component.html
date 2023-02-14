@@ -1,0 +1,4 @@
+<app-avatar [classList]="['w-50']" [imageUrl]="imageUrl"></app-avatar>
+<app-button (buttonClick)="emit()" *ngFor="let i of iconsList">
+	<app-icon [list]="i"></app-icon>
+</app-button>

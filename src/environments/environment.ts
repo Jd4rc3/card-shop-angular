@@ -3,15 +3,15 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  firebase: {
-    projectId: 'pokemon-88c81',
-    appId: '1:871681354173:web:d2b47d25742b9d52fd4ad4',
-    storageBucket: 'pokemon-88c81.appspot.com',
-    apiKey: 'AIzaSyDsyRen0Sgi2CJez33Yx-95v54evr8x9IE',
-    authDomain: 'pokemon-88c81.firebaseapp.com',
-    messagingSenderId: '871681354173',
-  },
-  production: false
+	firebase: {
+		apiKey: 'AIzaSyDZ6pc1qQYEEnkJtp0PgDZ8xLWvrSRYsoA',
+		authDomain: 'pokemon-78a6f.firebaseapp.com',
+		projectId: 'pokemon-78a6f',
+		storageBucket: 'pokemon-78a6f.appspot.com',
+		messagingSenderId: '4151480292',
+		appId: '1:4151480292:web:f72f0b464913c5118641f1',
+	},
+	production: false,
 };
 
 /*
