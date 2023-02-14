@@ -1,20 +1,25 @@
 import { Injectable } from '@angular/core';
-import { collection, Firestore, setDoc } from '@angular/fire/firestore';
+import { collection, collectionData, docData, Firestore, setDoc } from '@angular/fire/firestore';
 import { doc, getDoc } from '@firebase/firestore';
 import { User } from '../domain/entities/user.model';
 import { TransactionStatusModel } from '../domain/valueObject/transaction.status.model';
 import { Recharge } from '../domain/entities/recharge.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class UserService {
-	constructor(private readonly firestore: Firestore) {}
+	constructor(private readonly firestore: Firestore) { }
 
 	findUser(userId: string): Promise<User | undefined> {
 		return getDoc(doc(this.firestore, `users/${userId}`)).then((d) =>
 			d.data() ? (d.data() as User) : undefined,
 		);
+	}
+
+	streamToUser(userId: string) {
+		return docData(doc(this.firestore, `users/${userId}`)) as Observable<User>;
 	}
 
 	async recharge(
@@ -55,11 +60,14 @@ export class UserService {
 				const date = new Date(r.performedAt);
 				const currentDate = new Date();
 
-				return date.getDate() === currentDate.getDate();
-			})
-			.reduce((acc, current) => acc + current.amount, 0);
+				const stringDate = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+				const now = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`
 
-		return todayAmount! + amount <= 200;
+				return stringDate === now;
+			})
+			.reduce((acc, current) => acc + Number(current.amount), 0);
+
+		return (todayAmount! + amount) <= 200;
 	}
 
 	saveUser(user: User): Promise<void> {

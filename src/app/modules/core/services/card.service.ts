@@ -12,6 +12,7 @@ import { uuidv4 } from '@firebase/util';
 import { Observable } from 'rxjs';
 import { Card } from '../domain/entities/card.model';
 import { HistoryType } from '../domain/enums/historyType.model';
+import { TransactionStatusModel } from '../domain/valueObject/transaction.status.model';
 import { UserService } from './user.service';
 
 @Injectable({
@@ -26,7 +27,7 @@ export class CardService {
 	constructor(
 		private readonly firestore: Firestore,
 		private readonly _userService: UserService,
-	) {}
+	) { }
 
 	findAvailableCards() {
 		const qry = query(
@@ -52,7 +53,7 @@ export class CardService {
 		return setDoc(cardRef, card);
 	}
 
-	async purchaseCard(cardId: string, buyerId: string): Promise<boolean> {
+	async purchaseCard(cardId: string, buyerId: string): Promise<TransactionStatusModel> {
 		const pokemon = await this.findCard(cardId).catch((err) =>
 			console.log({ err }),
 		);
@@ -61,10 +62,13 @@ export class CardService {
 			.findUser(buyerId)
 			.catch((err) => console.log({ err }));
 
-		if (!(pokemon && buyer)) return false;
+		if (!(pokemon && buyer)) return { message: "That pokemon card ins't available", success: false };
+
+		if (buyer.balance! < pokemon.price) return { message: "You don't have enough money", success: false };
 
 		pokemon.activeForSale = false;
 		buyer.deck?.push(pokemon);
+		buyer.balance = buyer.balance! - pokemon.price;
 
 		this._userService.saveUser(buyer);
 
@@ -81,7 +85,7 @@ export class CardService {
 
 		this.saveCard(pokemon);
 
-		return true;
+		return { message: 'Congratulations your new card has been add to your deck', success: true };
 	}
 
 	async giftCard(ownerId: string, receiverId: string, cardId: string) {
