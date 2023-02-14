@@ -1,14 +1,17 @@
 <div class="row mt-5">
-	<app-deck
-		*ngFor="let c of user.deck"
-		class="col-12 col-md-6 col-lg-4 col-xl-3"
-		[card]="c"
-	></app-deck>
+	<app-deck *ngFor="let c of user.deck" class="col-12 col-md-6 col-lg-4 col-xl-3" [card]="c"></app-deck>
 </div>
 
 <app-user-data class="mb-5 mt-5 d-flex" [userData]="user"></app-user-data>
 
-<app-balance
-	[recharges]="user.recharges!"
-	[balance]="user.balance!"
-></app-balance>
+<app-balance [recharges]="user.recharges!" [balance]="user.balance!"></app-balance>
+
+<app-button [classes]="['btn-outline-success']" (buttonClick)="rechargeSwal.fire()">Recharge!</app-button>
+
+<swal #rechargeSwal title="Recharge" text="Type the amount which you want recharge" input="number"
+	[showCancelButton]="true" [focusCancel]="true" (confirm)="recharge($event)">
+</swal>
+
+<swal #wrong title="" text="" icon="error"></swal>
+
+<swal #right title="" text="" icon="success"></swal>
